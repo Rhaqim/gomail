@@ -23,7 +23,7 @@ type Gomail interface {
 	message() []byte
 
 	// SendEmail sends an email to the specified recipients with the given subject, template, and data.
-	SendEmail(to []string, subject, template, body string, data ...interface{}) error
+	SendEmail(to []string, template, subject, body string, data ...interface{}) error
 }
 
 func NewGoemail(auth EmailAuthConfig, templateDir string) Gomail {

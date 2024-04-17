@@ -7,7 +7,7 @@ Gomail is a Golang module that provides an abstraction for sending template emai
 To install Gomail, use the following command:
 
 ```bash
-    go get github.com/kevguy/gomail
+    go get github.com/rhaqim/gomail
 ```
 
 ## Usage
@@ -16,6 +16,11 @@ To use Gomail, you need to import the module and create a new instance of the `G
 
 ```go
     package main
+
+    import (
+        "log"
+        "github.com/rhaqim/gomail"
+    )
 
     func main() {
         auth := gomail.EmailAuthConfig{
