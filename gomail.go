@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gomail/errors"
 	"net/smtp"
+	"sync"
 	"text/template"
 )
 
@@ -118,9 +119,20 @@ func (g *GoemailConfig) message() []byte {
 
 	var message []byte = []byte("From: " + g.Config.From + "\r\n")
 
+	// Add the recipients to the message.
+	var wg sync.WaitGroup
+	wg.Add(len(g.email.Recipients))
+
 	for _, recipient := range g.email.Recipients {
-		message = append(message, []byte("To: "+recipient+"\r\n")...)
+		go func(recipient string) {
+			defer wg.Done()
+			g.mutex.Lock()
+			defer g.mutex.Unlock()
+			message = append(message, []byte("To: "+recipient+"\r\n")...)
+		}(recipient)
 	}
+
+	wg.Wait()
 
 	message = append(message, []byte(subject+"\r\n")...)
 	message = append(message, []byte(g.email.Body)...)

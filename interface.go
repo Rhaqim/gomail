@@ -1,5 +1,7 @@
 package gomail
 
+import "sync"
+
 type EmailAuthConfig struct {
 	Host     string
 	Port     int
@@ -20,6 +22,7 @@ type GoemailConfig struct {
 	TemplateDir string
 	Log         bool
 	email       *Email
+	mutex       sync.Mutex
 }
 
 type ValidateKind string
