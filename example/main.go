@@ -21,7 +21,15 @@ func main() {
 }
 
 func App(mail gomail.Gomail) {
-	err := mail.SendEmail([]string{"me", "you"}, "hello.html", "Hello", "me")
+
+	email := &gomail.Email{
+		Recipients:       []string{"recipient1@gmail.com", "recipient2@gmail.com"},
+		Subject:          "Hello",
+		Body:             "Hello, this is a test email",
+		TemplateFileName: "hello.html",
+	}
+
+	err := mail.SendEmail(email)
 	if err != nil {
 		log.Fatal(err)
 	}

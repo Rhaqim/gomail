@@ -23,7 +23,7 @@ type Gomail interface {
 	message() []byte
 
 	// SendEmail sends an email to the specified recipients with the given subject, template, and data.
-	SendEmail(to []string, template, subject, body string, data ...interface{}) error
+	SendEmail(mail *Email) error
 }
 
 func NewGoemail(auth EmailAuthConfig, templateDir string) Gomail {
@@ -62,7 +62,7 @@ func (g *GoemailConfig) validate(kind ValidateKind) error {
 			return errors.ErrEmptyTemplateDir
 		}
 	case email:
-		if len(g.email.to) == 0 {
+		if len(g.email.Recipients) == 0 {
 			return errors.ErrEmptyTo
 		}
 	}
@@ -83,7 +83,7 @@ func (g *GoemailConfig) authenticate() (smtp.Auth, error) {
 }
 
 func (g *GoemailConfig) parseTemplate() error {
-	templFileName := g.TemplateDir + "/" + g.email.templateFileName
+	templFileName := g.TemplateDir + "/" + g.email.TemplateFileName
 
 	t, err := template.ParseFiles(templFileName)
 	if err != nil {
@@ -94,8 +94,8 @@ func (g *GoemailConfig) parseTemplate() error {
 		Title string
 		Body  string
 	}{
-		Title: g.email.subject,
-		Body:  g.email.body,
+		Title: g.email.Subject,
+		Body:  g.email.Body,
 	}
 
 	buf := new(bytes.Buffer)
@@ -103,13 +103,13 @@ func (g *GoemailConfig) parseTemplate() error {
 		return err
 	}
 
-	g.email.body = buf.String()
+	g.email.Body = buf.String()
 
 	return nil
 }
 
 func (g *GoemailConfig) message() []byte {
-	subject := "Subject: " + g.email.subject + "!\n"
+	subject := "Subject: " + g.email.Subject + "!\n"
 
 	// Set the "Content-Type" header to "text/html".
 	header := make(map[string]string)
@@ -118,12 +118,12 @@ func (g *GoemailConfig) message() []byte {
 
 	var message []byte = []byte("From: " + g.Config.From + "\r\n")
 
-	for _, recipient := range g.email.to {
+	for _, recipient := range g.email.Recipients {
 		message = append(message, []byte("To: "+recipient+"\r\n")...)
 	}
 
 	message = append(message, []byte(subject+"\r\n")...)
-	message = append(message, []byte(g.email.body)...)
+	message = append(message, []byte(g.email.Body)...)
 
 	// Add the headers to the message.
 	for k, v := range header {
@@ -133,18 +133,10 @@ func (g *GoemailConfig) message() []byte {
 	return message
 }
 
-func (g *GoemailConfig) SendEmail(recipients []string, template, subject, body string, data ...interface{}) error {
+func (g *GoemailConfig) SendEmail(mail *Email) error {
 	var err error
 
-	r := &Email{
-		templateFileName: template,
-		to:               recipients,
-		subject:          subject,
-		body:             body,
-		data:             data,
-	}
-
-	g.email = r
+	g.email = mail
 
 	err = g.validate(email)
 	if err != nil {
@@ -161,7 +153,7 @@ func (g *GoemailConfig) SendEmail(recipients []string, template, subject, body s
 		return err
 	}
 
-	err = smtp.SendMail(g.Config.Host+":"+fmt.Sprint(g.Config.Port), auth, g.Config.Username, g.email.to, g.message())
+	err = smtp.SendMail(g.Config.Host+":"+fmt.Sprint(g.Config.Port), auth, g.Config.Username, g.email.Recipients, g.message())
 	if err != nil {
 		return err
 	}

@@ -9,11 +9,10 @@ type EmailAuthConfig struct {
 }
 
 type Email struct {
-	to               []string
-	subject          string
-	body             string
-	templateFileName string
-	data             interface{}
+	Recipients       []string
+	Subject          string
+	Body             string
+	TemplateFileName string
 }
 
 type GoemailConfig struct {

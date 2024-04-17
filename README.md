@@ -40,15 +40,15 @@ To use Gomail, you need to import the module and create a new instance of the `G
     }
 
     func App(mail gomail.Gomail) {
-        recipientes := []string{"recipient1e@gmail.com", "recipiente2@gmail.com"}
 
-        subject := "Hello"
+        email := &gomail.Email{
+            Recipients:       []string{"recipient1e@gmail.com", "recipiente2@gmail.com"},
+            Subject:          "Hello",
+            Body:             "Hello, this is a test email",
+            TemplateFileName: "hello.html",
+        }
 
-        template := "hello.html"
-
-        body := "Body of the email"
-
-        err := mail.SendEmail(recipientes, subject, template, body)
+        err := mail.SendEmail(email)
         if err != nil {
             log.Fatal(err)
         }
