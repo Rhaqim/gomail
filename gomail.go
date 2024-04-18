@@ -84,6 +84,10 @@ func (g *GoemailConfig) authenticate() (smtp.Auth, error) {
 }
 
 func (g *GoemailConfig) parseTemplate() error {
+	var data any
+	var err error
+	buf := new(bytes.Buffer)
+
 	templFileName := g.TemplateDir + "/" + g.email.TemplateFileName
 
 	t, err := template.ParseFiles(templFileName)
@@ -91,16 +95,19 @@ func (g *GoemailConfig) parseTemplate() error {
 		return err
 	}
 
-	template := struct {
-		Title string
-		Body  string
-	}{
-		Title: g.email.Subject,
-		Body:  g.email.Body,
+	if g.email.Data != nil {
+		data = g.email.Data
+	} else {
+		data = struct {
+			Title string
+			Body  string
+		}{
+			Title: g.email.Subject,
+			Body:  g.email.Body,
+		}
 	}
 
-	buf := new(bytes.Buffer)
-	if err = t.Execute(buf, template); err != nil {
+	if err = t.Execute(buf, data); err != nil {
 		return err
 	}
 

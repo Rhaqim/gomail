@@ -32,3 +32,39 @@ func TestMessage(t *testing.T) {
 		t.Errorf("Expected message:\n%s\n\nActual message:\n%s", expectedMessage, actualMessage)
 	}
 }
+func TestParseTemplate(t *testing.T) {
+	config := &GoemailConfig{
+		email: &Email{
+			Subject:          "Test Subject",
+			Recipients:       []string{"recipient1@example.com", "recipient2@example.com"},
+			Body:             "Test Body",
+			TemplateFileName: "hello.html",
+			Data: map[string]interface{}{
+				"Title": "Template Title",
+				"Body":  "Template Body",
+			},
+		},
+		TemplateDir: "example/templates",
+	}
+
+	err := config.parseTemplate()
+	if err != nil {
+		t.Errorf("Error parsing template: %v", err)
+	}
+
+	expectedBody := `<!DOCTYPE html>
+	<html>
+	<head>
+		<title>My Go Template</title>
+	</head>
+	<body>
+		<h1>Template Title</h1>
+		<p>Template Body</p>
+	</body>
+	</html>`
+	actualBody := config.email.Body
+
+	if expectedBody != actualBody {
+		t.Errorf("Expected body: %s, but got: %s", expectedBody, actualBody)
+	}
+}
