@@ -1,4 +1,4 @@
-package gomail
+package errors
 
 import "errors"
 
