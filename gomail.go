@@ -3,10 +3,11 @@ package gomail
 import (
 	"bytes"
 	"fmt"
-	"gomail/errors"
 	"net/smtp"
 	"sync"
 	"text/template"
+
+	"github.com/rhaqim/gomail/errors"
 )
 
 // Goemail is an interface for sending emails and parsing templates.

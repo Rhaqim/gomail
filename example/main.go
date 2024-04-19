@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gomail"
 	"log"
+
+	"github.com/rhaqim/gomail"
 )
 
 func main() {

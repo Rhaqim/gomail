@@ -3,8 +3,8 @@ module gomailtesting
 go 1.22.0
 
 require (
-    gomail v1.4.0
+    github.com/rhaqim/gomail v1.0.0-beta
 )
 
 // add module from src folder
-replace gomail => ../
+replace github.com/rhaqim/gomail => ../
