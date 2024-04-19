@@ -28,7 +28,7 @@ type Gomail interface {
 	SendEmail(mail *Email) error
 }
 
-func NewGoemail(auth EmailAuthConfig, templateDir string) Gomail {
+func NewGomail(auth EmailAuthConfig, templateDir string) Gomail {
 
 	return &GoemailConfig{
 		Config:      auth,

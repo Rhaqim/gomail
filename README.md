@@ -33,7 +33,7 @@ To use Gomail, you need to import the module and create a new instance of the `G
 
         templateDir := "templates"
 
-        g := gomail.NewGoemail(auth, templatesDir)
+        g := gomail.NewGomail(auth, templatesDir)
 
         App(g)
 

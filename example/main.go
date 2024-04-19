@@ -15,7 +15,7 @@ func main() {
 		From:     "me@gmail.com",
 	}
 
-	var g gomail.Gomail = gomail.NewGoemail(auth, "example/templates")
+	var g gomail.Gomail = gomail.NewGomail(auth, "example/templates")
 
 	App(g)
 
