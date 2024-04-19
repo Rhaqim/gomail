@@ -46,6 +46,7 @@ To use Gomail, you need to import the module and create a new instance of the `G
             Subject:          "Hello",
             Body:             "Hello, this is a test email",
             TemplateFileName: "hello.html",
+            Data:             map[string]interface{}{"Title": "Hello", "Body": "Hello, this is a test email"},
         }
 
         err := mail.SendEmail(email)
@@ -53,6 +54,21 @@ To use Gomail, you need to import the module and create a new instance of the `G
             log.Fatal(err)
         }
     }
+```
+
+The template file should be in the specified template directory and should be an HTML file. The template file should contain the email body and any other information that you want to include in the email.
+
+```html
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>My Go Template</title>
+        </head>
+        <body>
+            <h1>{{.Title }}</h1>
+            <p>{{ .Body }}</p>
+        </body>
+    </html>
 ```
 
 ## Contributing

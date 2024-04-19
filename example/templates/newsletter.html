@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter</title>
+</head>
+<body>
+    <h1>Welcome to our Newsletter!</h1>
+    <p>Here's the latest news and updates:</p>
+    
+    {{ range .Articles }}
+        <h2>{{ .Title }}</h2>
+        <p>{{ .Content }}</p>
+    {{ end }}
+    
+    <p>Thank you for subscribing to our newsletter!</p>
+</body>
+</html>

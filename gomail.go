@@ -28,6 +28,7 @@ type Gomail interface {
 	SendEmail(mail *Email) error
 }
 
+// NewGomail creates a new Gomail instance with the given email authentication configuration and template directory.
 func NewGomail(auth EmailAuthConfig, templateDir string) Gomail {
 
 	return &GoemailConfig{
