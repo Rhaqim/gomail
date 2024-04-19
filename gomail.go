@@ -118,6 +118,8 @@ func (g *GoemailConfig) parseTemplate() error {
 }
 
 func (g *GoemailConfig) message() []byte {
+	var message []byte
+
 	subject := "Subject: " + g.email.Subject + "!\n"
 
 	// Set the "Content-Type" header to "text/html".
@@ -125,7 +127,7 @@ func (g *GoemailConfig) message() []byte {
 	header["Content-Type"] = "text/html; charset=\"UTF-8\";"
 	header["MIME-version"] = "1.0;"
 
-	var message []byte = []byte("From: " + g.Config.From + "\r\n")
+	message = []byte("From: " + g.Config.From + "\r\n")
 
 	// Add the recipients to the message.
 	var wg sync.WaitGroup
