@@ -7,7 +7,7 @@ import (
 	"sync"
 	"text/template"
 
-	"github.com/rhaqim/gomail/errors"
+	"gomail/errors"
 )
 
 // Goemail is an interface for sending emails and parsing templates.

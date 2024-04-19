@@ -1,3 +1,3 @@
-module github.com/rhaqim/gomail
+module gomail
 
 go 1.22.0
