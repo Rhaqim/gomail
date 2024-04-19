@@ -6,8 +6,6 @@ import (
 	"net/smtp"
 	"sync"
 	"text/template"
-
-	"gomail/errors"
 )
 
 // Goemail is an interface for sending emails and parsing templates.
@@ -41,31 +39,31 @@ func (g *GoemailConfig) validate(kind ValidateKind) error {
 	switch kind {
 	case auth:
 		if g.Config.Host == "" {
-			return errors.ErrEmptyHost
+			return ErrEmptyHost
 		}
 
 		if g.Config.Port == 0 {
-			return errors.ErrEmptyPort
+			return ErrEmptyPort
 		}
 
 		if g.Config.Username == "" {
-			return errors.ErrEmptyUsername
+			return ErrEmptyUsername
 		}
 
 		if g.Config.Password == "" {
-			return errors.ErrEmptyPassword
+			return ErrEmptyPassword
 		}
 
 		if g.Config.From == "" {
-			return errors.ErrEmptyFrom
+			return ErrEmptyFrom
 		}
 
 		if g.TemplateDir == "" {
-			return errors.ErrEmptyTemplateDir
+			return ErrEmptyTemplateDir
 		}
 	case email:
 		if len(g.email.Recipients) == 0 {
-			return errors.ErrEmptyTo
+			return ErrEmptyTo
 		}
 	}
 
