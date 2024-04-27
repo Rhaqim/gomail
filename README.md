@@ -1,5 +1,8 @@
 # Gomail
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/Rhaqim/gomail.svg)](https://pkg.go.dev/github.com/Rhaqim/gomail)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Rhaqim/gomail)](https://goreportcard.com/report/github.com/Rhaqim/gomail)
+
 Gomail is a Golang module that provides an abstraction for sending template emails to users in Golang applications. It allows users to provide their SMTP credentials and a folder for the email templates, and then sends the email using the specified template.
 
 ## Installation
